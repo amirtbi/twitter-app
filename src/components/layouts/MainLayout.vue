@@ -1,10 +1,38 @@
+<script>
+import { ref } from "vue";
+import { useRoute } from "vue-router";
+export default {
+  setup() {
+    const route = useRoute();
+    console.log(route);
+    const leftDrawerOpen = ref(false);
+    const rightDrawerOpen = ref(false);
+
+    return {
+      leftDrawerOpen,
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+
+      rightDrawerOpen,
+      toggleRightDrawer() {
+        rightDrawerOpen.value = !rightDrawerOpen.value;
+      },
+    };
+  },
+};
+</script>
+
 <template>
   <q-layout view="lHr lpR fff">
     <q-header bordered class="bg-white text-black">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title class="text-weight-bold"> Twitter </q-toolbar-title>
+        <q-toolbar-title class="text-weight-bold">
+          <span class="gt-sm">{{ $route.name }}</span>
+          <q-icon name="bi-twitter" size="sm" class="lt-md" color="primary" />
+        </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -18,14 +46,14 @@
       <q-icon name="bi-twitter" size="lg" class="q-ma-md" color="primary" />
       <!-- navigation icons list-->
       <q-list>
-        <q-item to="/" clickable v-ripple>
+        <q-item to="home" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon size="md" class="q-pa-md" name="bi-house-door-fill" />
           </q-item-section>
 
           <q-item-section class="text-h6 text-weight-bold">Home</q-item-section>
         </q-item>
-        <q-item to="/about" clickable v-ripple>
+        <q-item to="/about" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon size="md" class="q-pa-md" name="bi-info-circle-fill" />
           </q-item-section>
@@ -101,32 +129,18 @@
         </q-item>
       </q-list>
     </q-drawer>
-
+    <!-- router -->
     <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
 
-<script>
-import { ref } from "vue";
-
-export default {
-  setup() {
-    const leftDrawerOpen = ref(false);
-    const rightDrawerOpen = ref(false);
-
-    return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
-
-      rightDrawerOpen,
-      toggleRightDrawer() {
-        rightDrawerOpen.value = !rightDrawerOpen.value;
-      },
-    };
-  },
-};
-</script>
+<style scoped>
+.header-icon {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+</style>
